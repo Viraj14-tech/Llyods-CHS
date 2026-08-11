@@ -14,7 +14,7 @@ export default function CommitteeSection() {
           <motion.div
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionLabel}
           >
             <span className="block text-[11px] md:text-[12px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -25,7 +25,7 @@ export default function CommitteeSection() {
             className="font-display text-[42px] md:text-[52px] leading-[1.05] text-[var(--color-ink)] mb-6"
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionHeading}
           >
             Managing Committee
@@ -45,7 +45,7 @@ export default function CommitteeSection() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-[48px] md:mb-[64px]"
           initial="initial"
           whileInView="whileInView"
-          viewport="viewport"
+          viewport={{ once: true, margin: '-10%' }}
           variants={staggerContainer}
         >
           {primaryMembers.map((member, idx) => (
@@ -72,7 +72,7 @@ export default function CommitteeSection() {
           <motion.div
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionLabel}
           >
             <span className="block text-[10px] md:text-[11px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -84,7 +84,7 @@ export default function CommitteeSection() {
             className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-12"
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={staggerContainer}
           >
             {regularMembers.map((member) => (
@@ -105,7 +105,7 @@ export default function CommitteeSection() {
           <motion.div
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionLabel}
           >
             <span className="block text-[11px] md:text-[12px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -116,7 +116,7 @@ export default function CommitteeSection() {
             className="font-display text-[32px] md:text-[40px] text-[var(--color-ink)] mb-6"
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionHeading}
           >
             Working together for our community.

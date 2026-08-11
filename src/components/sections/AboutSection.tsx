@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { sectionLabel, sectionHeading } from '../../utils/animations';
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { sectionLabel, staggerContainer } from '../../utils/animations';
-import { MapPin, HeartPulse, GraduationCap, ShoppingBag, Store, Trees, ArrowUpRight } from 'lucide-react';
+import { MapPin, HeartPulse, GraduationCap, ShoppingBag, Store, Trees } from 'lucide-react';
 
-const cardVariants = {
+const cardVariants: Variants = {
   initial: { opacity: 0, y: 24 },
   whileInView: { 
     opacity: 1, 
@@ -65,7 +65,7 @@ export default function AroundLlyodsSection() {
           <motion.div
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={{ once: true, margin: '-10%' }}
             variants={sectionLabel}
           >
             <span className="block text-[11px] md:text-[12px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -92,12 +92,11 @@ export default function AroundLlyodsSection() {
           </motion.p>
         </div>
 
-        {/* Architectural Grid */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-[#F8F4ED] border border-[rgba(22,22,22,0.10)] rounded-[6px] overflow-hidden mb-[48px] md:mb-[64px]"
           initial="initial"
           whileInView="whileInView"
-          viewport="viewport"
+          viewport={{ once: true, margin: '-10%' }}
           variants={staggerContainer}
         >
           {features.map((feature, idx) => (

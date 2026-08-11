@@ -1,10 +1,12 @@
-import { motion } from 'framer-motion';
-import { sectionHeading, sectionLabel } from '../../utils/animations';
+import { motion, useReducedMotion } from 'framer-motion';
+import { sectionLabel, clipRevealBottom, DUR, EASE_PRIMARY, VIEWPORT_OFFSET } from '../../utils/animations';
 
 export default function WelcomeSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section id="welcome" className="bg-[var(--color-paper)] pt-[80px] md:pt-[96px] pb-[40px] md:pb-[56px]">
-      <div className="max-w-[1360px] mx-auto px-[20px] md:px-[32px] lg:px-[48px] xl:px-[56px] w-full">
+    <section id="welcome" className="bg-[var(--color-paper)] pt-[72px] md:pt-[88px] pb-[24px] md:pb-[32px]">
+      <div className="max-w-[1320px] mx-auto px-[20px] md:px-[32px] lg:px-[48px] xl:px-[56px] w-full">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[48px] lg:gap-0 items-start">
           
@@ -13,7 +15,7 @@ export default function WelcomeSection() {
             <motion.div
               initial="initial"
               whileInView="whileInView"
-              viewport="viewport"
+              viewport={VIEWPORT_OFFSET}
               variants={sectionLabel}
             >
               <span className="block text-[11px] md:text-[12px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -23,25 +25,26 @@ export default function WelcomeSection() {
 
             <motion.h2 
               className="font-display text-[42px] md:text-[56px] leading-[1.05] text-[var(--color-ink)] mb-8 max-w-[500px]"
-              initial="initial"
-              whileInView="whileInView"
-              viewport="viewport"
-              variants={sectionHeading}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: DUR.STD, delay: 0.1, ease: EASE_PRIMARY }}
+              viewport={VIEWPORT_OFFSET}
             >
               A community we call home.
             </motion.h2>
 
             <motion.div 
               className="text-[16px] md:text-[17px] leading-[1.65] text-[#6F6B65] space-y-4 max-w-[560px]"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } }}
-              viewport={{ once: true, margin: "-10%" }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: DUR.STD, delay: 0.18, ease: EASE_PRIMARY }}
+              viewport={VIEWPORT_OFFSET}
             >
               <p>
-                <strong className="font-medium text-[var(--color-ink)]">Llyods Garden Co-operative Housing Society Ltd.</strong> is a residential community built around cooperation, responsible administration and shared ownership of the spaces residents call home.
+                <strong className="font-medium text-[var(--color-ink)]">Llyods Garden Co-operative Housing Society Ltd.</strong> is a residential community located on Appasaheb Marathe Marg in Prabhadevi, Mumbai. Like every co-operative community, its character is shaped not only by its buildings, but by the residents who share responsibility for the spaces, administration and everyday life of the society.
               </p>
               <p>
-                The society brings members together through a structured cooperative framework while maintaining a strong focus on the upkeep, management and long-term well-being of the community.
+                The society brings members together through an organised co-operative framework while maintaining focus on communication, common responsibilities and the long-term upkeep of the residential community.
               </p>
             </motion.div>
           </div>
@@ -53,9 +56,9 @@ export default function WelcomeSection() {
           <div className="lg:col-span-5 w-full flex lg:mt-[32px]">
             <motion.div 
               className="w-full aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-[4px] bg-[var(--color-rule)]"
-              initial={{ opacity: 0, clipPath: 'inset(0 0 10% 0)' }}
-              whileInView={{ opacity: 1, clipPath: 'inset(0 0 0 0)', transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-              viewport={{ once: true }}
+              initial={shouldReduceMotion ? { opacity: 0 } : clipRevealBottom.initial}
+              whileInView={shouldReduceMotion ? { opacity: 1, transition: { duration: DUR.STD } } : clipRevealBottom.whileInView}
+              viewport={VIEWPORT_OFFSET}
             >
               <motion.img 
                 loading="lazy"
@@ -63,9 +66,9 @@ export default function WelcomeSection() {
                 src="/society-images/llyods3.png" 
                 alt="Llyods Garden society sign surrounded by greenery" 
                 className="w-full h-full object-cover"
-                initial={{ scale: 1.025 }}
-                whileInView={{ scale: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-                viewport={{ once: true }}
+                initial={{ scale: shouldReduceMotion ? 1 : 1.03 }}
+                whileInView={{ scale: 1, transition: { duration: DUR.IMAGE, ease: EASE_PRIMARY } }}
+                viewport={VIEWPORT_OFFSET}
               />
             </motion.div>
           </div>

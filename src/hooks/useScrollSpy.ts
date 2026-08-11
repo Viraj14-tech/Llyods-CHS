@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-type SectionId = 'home' | 'about' | 'committee' | 'gallery' | 'events' | 'contact' | 'member-portal' | null;
+type SectionId = 'home' | 'about' | 'committee' | 'gallery' | 'events' | 'contact' | 'member-portal' | 'welcome' | 'community' | 'cooperative' | 'around-llyods' | null;
 
 export function useScrollSpy() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
@@ -85,8 +85,8 @@ export function useScrollSpy() {
           closestSection = 'home';
         }
 
-        if (closestSection && closestSection !== 'welcome' && closestSection !== 'community' && closestSection !== 'cooperative' && closestSection !== 'around-llyods') {
-          if (closestSection === 'member-portal') {
+        if (closestSection) {
+          if ((closestSection as SectionId) === 'member-portal') {
             setActiveSection(null);
           } else {
             setActiveSection(closestSection);

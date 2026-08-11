@@ -1,7 +1,18 @@
+export interface EventData {
+  id: string;
+  number: string;
+  title: string;
+  date: string;
+  time: string;
+  venue: string;
+  description: string;
+  cta: string;
+}
+
 // TEMPORARY PREVIEW EVENTS
 // Replace with official Llyods CHSL event data when received.
 
-export const events = [
+export const events: readonly EventData[] = [
   {
     id: "independence-day",
     number: "01",

@@ -1,34 +1,72 @@
-import { motion } from 'framer-motion';
-import { sectionLabel, sectionHeading, staggerContainer, staggerColumn } from '../../utils/animations';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion, type Variants } from 'framer-motion';
+import { sectionLabel, ruleDraw, ruleDrawY, DUR, EASE_PRIMARY, VIEWPORT_OFFSET } from '../../utils/animations';
 
 export default function LivingAtLlyodsSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 70%", "end 30%"]
+  });
+
+  const op1 = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0.55]);
+  const op2 = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0.55, 1, 0.55]);
+  const op3 = useTransform(scrollYProgress, [0.5, 0.7, 1], [0.55, 1, 1]);
+
+  const scale1 = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0.35]);
+  const scale2 = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0.35, 1, 0.35]);
+  const scale3 = useTransform(scrollYProgress, [0.5, 0.7, 1], [0.35, 1, 1]);
+
   const themes = [
     {
       number: '01',
       title: 'Community',
-      desc: 'Neighbours, families and residents together form the everyday character of Llyods.'
+      desc: 'Residents and families together shape the everyday character of Llyods.',
+      op: op1,
+      scale: scale1
     },
     {
       number: '02',
-      title: 'Shared Responsibility',
-      desc: 'A cooperative society works through participation, mutual respect and shared responsibility towards common spaces.'
+      title: 'Shared Spaces',
+      desc: 'Common spaces form an important part of society life and are cared for through shared responsibility.',
+      op: op2,
+      scale: scale2
     },
     {
       number: '03',
       title: 'Continuity',
-      desc: 'Thoughtful administration and resident involvement help maintain the society for both present and future members.'
+      desc: 'Resident participation and responsible administration help maintain the community for present and future members.',
+      op: op3,
+      scale: scale3
     }
   ];
 
+  const staggerContainer: Variants = {
+    initial: {},
+    whileInView: { 
+      transition: { 
+        staggerChildren: 0.15,
+        delayChildren: 0.4 // Wait for rules to draw
+      } 
+    }
+  };
+
+  const itemFade: Variants = {
+    initial: { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0, transition: { duration: DUR.STD, ease: EASE_PRIMARY } }
+  };
+
   return (
-    <section id="community" className="py-[72px] md:py-[88px] bg-[var(--color-paper)]">
-      <div className="max-w-[1360px] mx-auto px-[20px] md:px-[32px] lg:px-[48px] xl:px-[56px] w-full">
+    <section id="community" className="py-[64px] md:py-[72px] lg:py-[80px] bg-[var(--color-paper)]" ref={containerRef}>
+      <div className="max-w-[1320px] mx-auto px-[20px] md:px-[32px] lg:px-[48px] xl:px-[56px] w-full">
         
-        <div className="mb-[64px] md:mb-[80px]">
+        <div className="mb-[48px] md:mb-[64px]">
           <motion.div
             initial="initial"
             whileInView="whileInView"
-            viewport="viewport"
+            viewport={VIEWPORT_OFFSET}
             variants={sectionLabel}
           >
             <span className="block text-[11px] md:text-[12px] font-semibold tracking-[0.16em] uppercase text-[var(--color-muted)] mb-6">
@@ -37,10 +75,10 @@ export default function LivingAtLlyodsSection() {
           </motion.div>
           <motion.h2 
             className="font-display text-[42px] md:text-[52px] leading-[1.05] text-[var(--color-ink)]"
-            initial="initial"
-            whileInView="whileInView"
-            viewport="viewport"
-            variants={sectionHeading}
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: DUR.STD, delay: 0.1, ease: EASE_PRIMARY }}
+            viewport={VIEWPORT_OFFSET}
           >
             Life at Llyods.
           </motion.h2>
@@ -48,44 +86,55 @@ export default function LivingAtLlyodsSection() {
 
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-3 gap-y-12 md:gap-y-0"
-          initial="initial"
-          whileInView="whileInView"
-          viewport="viewport"
+          initial={shouldReduceMotion ? { opacity: 0 } : "initial"}
+          whileInView={shouldReduceMotion ? { opacity: 1, transition: { duration: DUR.STD } } : "whileInView"}
+          viewport={VIEWPORT_OFFSET}
           variants={staggerContainer}
         >
           {themes.map((theme, idx) => (
             <motion.div 
               key={theme.number}
               className={`flex flex-col relative md:pr-12 ${idx !== 0 ? 'md:pl-12' : ''}`}
-              variants={staggerColumn}
             >
               {/* Vertical Rule (Desktop) / Horizontal Rule (Mobile) */}
-              {idx !== 0 && (
+              {idx !== 0 && !shouldReduceMotion && (
                 <>
                   <motion.div 
                     className="hidden md:block absolute top-0 bottom-0 left-0 w-[1px] bg-[var(--color-rule)] origin-top"
-                    initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-                    viewport={{ once: true, margin: "-10%" }}
+                    variants={ruleDrawY}
                   />
                   <motion.div 
                     className="md:hidden absolute -top-6 left-0 right-0 h-[1px] bg-[var(--color-rule)] origin-left"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-                    viewport={{ once: true, margin: "-10%" }}
+                    variants={ruleDraw}
                   />
                 </>
               )}
+              {idx !== 0 && shouldReduceMotion && (
+                <>
+                  <div className="hidden md:block absolute top-0 bottom-0 left-0 w-[1px] bg-[var(--color-rule)]" />
+                  <div className="md:hidden absolute -top-6 left-0 right-0 h-[1px] bg-[var(--color-rule)]" />
+                </>
+              )}
               
-              <span className="text-[32px] md:text-[36px] font-display text-[var(--color-ink)] opacity-40 mb-4 md:mb-5">
-                {theme.number}
-              </span>
-              <h3 className="text-[13px] md:text-[14px] font-semibold tracking-[0.08em] uppercase text-[var(--color-ink)] mb-3">
-                {theme.title}
-              </h3>
-              <p className="text-[15px] md:text-[16px] leading-[1.65] text-[#6F6B65]">
-                {theme.desc}
-              </p>
+              <motion.div variants={shouldReduceMotion ? {} : itemFade}>
+                <motion.div style={{ opacity: shouldReduceMotion ? 1 : theme.op }} className="transition-opacity duration-75">
+                  <span className="block text-[32px] md:text-[36px] font-display text-[var(--color-ink)] opacity-40 mb-3">
+                    {theme.number}
+                  </span>
+                  
+                  <motion.div 
+                    style={{ scaleX: shouldReduceMotion ? 1 : theme.scale }} 
+                    className="h-[2px] w-[24px] bg-[var(--color-bronze)] origin-left mb-5" 
+                  />
+
+                  <h3 className="text-[13px] md:text-[14px] font-semibold tracking-[0.08em] uppercase text-[var(--color-ink)] mb-3">
+                    {theme.title}
+                  </h3>
+                  <p className="text-[15px] md:text-[16px] leading-[1.65] text-[#6F6B65]">
+                    {theme.desc}
+                  </p>
+                </motion.div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>

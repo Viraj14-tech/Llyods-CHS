@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useScrollSpy } from '../hooks/useScrollSpy';
-import { navbarReveal } from '../utils/animations';
+
+
+const navbarReveal = {
+  initial: { opacity: 0, y: -8 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } }
+};
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

@@ -1,71 +1,83 @@
-import type { Variants } from 'framer-motion';
+// ==========================================
+// MOTION TOKENS
+// ==========================================
 
-export const navbarReveal: Variants = {
-  initial: { opacity: 0, y: -8 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+export const EASE_PRIMARY: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+export const DUR = {
+  FAST: 0.2,
+  STD: 0.6,
+  EDITORIAL: 0.8,
+  IMAGE: 1.0,
 };
 
-export const heroEyebrow: Variants = {
+// Viewport settings to prevent re-triggering and computation
+export const VIEWPORT_OFFSET = { once: true, margin: '-10%' };
+export const VIEWPORT_EARLY = { once: true, margin: '-5%' };
+
+// ==========================================
+// SHARED VARIANTS (Base Building Blocks)
+// ==========================================
+// Note: Complex, section-specific staggers and delays are defined 
+// inside their respective components for bespoke art direction.
+
+export const sectionLabel = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.5, delay: 0.1 } }
+  whileInView: { opacity: 1, transition: { duration: DUR.STD, ease: 'easeOut' as const } }
 };
 
-export const heroHeadingContainer: Variants = {
-  initial: {},
-  animate: { transition: { staggerChildren: 0.09 } }
-};
-
-export const heroHeadingLine: Variants = {
-  initial: { y: "105%" },
-  animate: { y: "0%", transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] } }
-};
-
-export const heroBody: Variants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] } }
-};
-
-export const heroCTA: Variants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] } }
-};
-
-export const heroImageReveal: Variants = {
-  initial: { clipPath: 'inset(0 0 100% 0)', scale: 1.04 },
-  animate: { clipPath: 'inset(0 0 0% 0)', scale: 1, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] } }
-};
-
-export const sectionHeading: Variants = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
-};
-
-export const sectionLabel: Variants = {
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1, transition: { duration: 0.6 } }
-};
-
-export const ruleDraw: Variants = {
+export const ruleDraw = {
   initial: { scaleX: 0 },
-  whileInView: { scaleX: 1, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } }
+  whileInView: { 
+    scaleX: 1, 
+    transition: { duration: DUR.EDITORIAL, ease: EASE_PRIMARY } 
+  }
 };
 
-export const staggerContainer: Variants = {
-  initial: {},
-  whileInView: { transition: { staggerChildren: 0.1 } }
+export const ruleDrawY = {
+  initial: { scaleY: 0 },
+  whileInView: { 
+    scaleY: 1, 
+    transition: { duration: DUR.EDITORIAL, ease: EASE_PRIMARY } 
+  }
 };
 
-export const staggerColumn: Variants = {
-  initial: { opacity: 0, y: 18 },
-  whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+export const clipRevealRight = {
+  initial: { clipPath: 'inset(0 100% 0 0)' },
+  whileInView: { 
+    clipPath: 'inset(0 0% 0 0)', 
+    transition: { duration: DUR.EDITORIAL, ease: EASE_PRIMARY } 
+  }
 };
 
-export const staggerRow: Variants = {
-  initial: { opacity: 0, y: 15 },
-  whileInView: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
+export const clipRevealLeft = {
+  initial: { clipPath: 'inset(0 0 0 100%)' },
+  whileInView: { 
+    clipPath: 'inset(0 0 0 0%)', 
+    transition: { duration: DUR.EDITORIAL, ease: EASE_PRIMARY } 
+  }
 };
 
-export const locationMapReveal: Variants = {
+export const clipRevealBottom = {
   initial: { clipPath: 'inset(100% 0 0 0)' },
-  whileInView: { clipPath: 'inset(0% 0 0 0)', transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } }
+  whileInView: { 
+    clipPath: 'inset(0% 0 0 0)', 
+    transition: { duration: DUR.EDITORIAL, ease: EASE_PRIMARY } 
+  }
+};
+
+// ==========================================
+// ACCESSIBILITY FALLBACKS
+// ==========================================
+
+export const reduceMotionFade = {
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1, transition: { duration: DUR.FAST } },
+  animate: { opacity: 1, transition: { duration: DUR.FAST } }
+};
+
+export const reduceMotionStaggerContainer = {
+  initial: {},
+  whileInView: { transition: { staggerChildren: 0.1 } },
+  animate: { transition: { staggerChildren: 0.1 } }
 };
